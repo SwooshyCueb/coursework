@@ -1,0 +1,32 @@
+CSE 4243 HOMEWORK 3                                         DEVELOPING A FILTER
+-------------------------------------------------------------------------------
+Joseph Merrell-White <jam927@mssate.edu>   Due: Fri, 31 Oct 2014 17:00:00 -0500
+-------------------------------------------------------------------------------
+Initially I was going to use Python 2 for this assignment, as I'm more familiar
+with it, and googling nearly anything Python related seems to take me to people
+discussing Python 2, more often than not.
+
+I decided, however, to use Python 3 after all, as most installations often come
+with the ipaddress module, which I used to validate the ip address strings that
+were passed to add_host() and remove_host().
+
+The IP addresses themselves are stored in the variable hostdeny. I included the
+function hostfilter_init() to load the configuration. This function need not be
+called from outside the module, as if another function cannot find hostdeny, it
+calls hostfilter_init(), as this most likely means that the local configuration
+has not been loaded.
+
+The configuration itself is handled by pickle. The hostdeny list is pickled and
+saved to the user's home directory with the filename ".jam927_hostdeny". Pickle
+dumps the list back to the file whenever add_host() or remove_host() is called.
+
+The urllib module was used to make the actual HTTP requests. As was required in
+the homework prompt, all exceptions related to the HTTP requests are caught and
+more-or-less ignored, simply returning "No page" should an error occur with the
+request.
+
+The script I used to test the module is named hw3go.py. It will try to remove a
+host that is not on the list, add one that already is, add an IP that is not on
+the list, remove said IP, fetch an index from a host that is on the list, fetch
+an index that does not exist, fetch one that does, and retrieve the entire list
+of denied hosts. It seems to hold up.
