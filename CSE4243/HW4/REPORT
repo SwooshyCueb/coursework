@@ -1,0 +1,34 @@
+CSE 4243 HOMEWORK 4                                        EXTENDING THE FILTER
+-------------------------------------------------------------------------------
+Joseph Merrell-White <jam927@mssate.edu>    Due: Fri, 7 Nov 2014 17:00:00 -0500
+-------------------------------------------------------------------------------
+The changes made to the module in this assigmnent almost defeats the purpose of
+using the ipaddress module. It is still useful to check whether a string passed
+to add_host(), remove_host(), or get_web_index() is a domain or an IP addresss,
+as well as to make sure that all blacklisted IP addresses are stored within the
+blacklist with consistent formatting. This way we don't have two of the same IP
+address within the blacklist, just formatted differently.
+
+Since the Python list that makes up the blacklist is an array of strings rather
+than a list of IP address objects, as it was in the previous assignment, I have
+changed the name of the user configuration file to ".jam927_hostdeny2". This is
+done to prevent issues with incompatibility with the previous implementation.
+
+add_host() and remove_host() did not change much from the previous incarnation.
+They no longer throw an exception if the passed string is not an IP address, so
+that domain names can be added and removed from the blacklist. IP addresses are
+still "normalized" before being added to the blacklist.
+
+The get_blacklist() function now just returns a copy of the blacklist. The need
+to convert each item to a string has been eliminated.
+
+The get_web_index() has undergone the most change. It now has to resolve the IP
+addresses to hostnames and vice versa. Many domain names resolve to multiple IP
+addresses, as many IP addresses resolve to multiple hostnames. Our blacklist is
+checked not only for the presence of the passed host, but also for the presence
+of any hosts the passed host resolves to. Only one resolution is done (so we do
+not resolve from IP address, to hostnames, back to IP addresses).
+
+The script I used to test the module is named hw4go.py. It covers functionality
+from the previous implementation, as well as the new version, to ensure that no
+functionality was lost.
